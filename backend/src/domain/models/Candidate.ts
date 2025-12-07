@@ -1,9 +1,7 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { prisma, Prisma } from '../../infrastructure/prismaClient';
 import { Education } from './Education';
 import { WorkExperience } from './WorkExperience';
 import { Resume } from './Resume';
-
-const prisma = new PrismaClient();
 
 export class Candidate {
     id?: number;
@@ -116,6 +114,43 @@ export class Candidate {
         });
         if (!data) return null;
         return new Candidate(data);
+    }
+
+    static async findAll() {
+        try {
+            const data = await prisma.candidate.findMany({
+                include: {
+                    educations: true,
+                    workExperiences: true,
+                    resumes: true,
+                },
+            });
+            return data;
+        } catch (error: any) {
+            if (error instanceof Prisma.PrismaClientInitializationError) {
+                throw new Error('No se pudo conectar con la base de datos. Por favor, asegúrese de que el servidor de base de datos esté en ejecución.');
+            }
+            throw error;
+        }
+    }
+
+    static async findById(id: number) {
+        try {
+            const data = await prisma.candidate.findUnique({
+                where: { id },
+                include: {
+                    educations: true,
+                    workExperiences: true,
+                    resumes: true,
+                },
+            });
+            return data;
+        } catch (error: any) {
+            if (error instanceof Prisma.PrismaClientInitializationError) {
+                throw new Error('No se pudo conectar con la base de datos. Por favor, asegúrese de que el servidor de base de datos esté en ejecución.');
+            }
+            throw error;
+        }
     }
 }
 

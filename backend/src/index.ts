@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import candidateRoutes from './routes/candidateRoutes';
 import { uploadFile } from './application/services/fileUploadService';
 import cors from 'cors';
+import { prisma } from './infrastructure/prismaClient';
 
 // Extender la interfaz Request para incluir prisma
 declare global {
@@ -16,7 +17,6 @@ declare global {
 }
 
 dotenv.config();
-const prisma = new PrismaClient();
 
 export const app = express();
 export default app;
@@ -53,12 +53,20 @@ app.get('/', (req, res) => {
   res.send('Hola LTI!');
 });
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK' });
+});
+
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
   res.type('text/plain'); 
   res.status(500).send('Something broke!');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+// Solo iniciar el servidor si no estamos en entorno de test
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  });
+}
