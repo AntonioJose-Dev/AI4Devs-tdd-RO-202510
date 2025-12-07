@@ -1,303 +1,295 @@
-# LTI - Talent Tracking System | EN
+# AI4Devs-tdd-RO-202510
 
-This project is a full-stack application with a React frontend and an Express backend using Prisma as an ORM. The frontend is set up with Create React App, and the backend is written in TypeScript.
+## 📋 Descripción
 
-## Explanation of Directories and Files
+Ejercicio práctico de **LIDR Academy** que implementa una aplicación full-stack para la gestión de candidatos en procesos de selección. El backend está desarrollado con **Node.js**, **Express** y **TypeScript**, utilizando **Prisma** como ORM y **PostgreSQL** como base de datos. El frontend está construido con **React** y **React Router**, ofreciendo una interfaz moderna para dar de alta candidatos, listarlos y consultar su detalle.
 
-- `backend/`: It contains the server-side code written in Node.js.
-  - `src/`: It contains the source code for the backend.
-    - `index.ts`: The entry point for the backend server.
-    - `application/`: It contains the application logic.
-    - `domain/`: It contains the business logic.
-    - `presentation/`: It contains code related to the presentation layer (such as controllers).
-    - `routes/`: It contains the route definitions for the API.
-  - `prisma/`: It contains the Prisma schema file for ORM.
-  - `tsconfig.json`: TypeScript configuration file.
-- `frontend/`: It contains the client-side code written in React.
-  - `src/`: It contains the source code for the frontend.
-  - `public/`: It contains static files such as the HTML file and images.
-  - `build/`: It contains the production-ready build of the frontend.
-- `.env`: It contains the environment variables.
-- `docker-compose.yml`: It contains the Docker Compose configuration to manage your application's services.
-- `README.md`: This file contains information about the project and instructions on how to run it.
+---
 
-## Project Structure
+## 🛠️ Tecnologías Principales
 
-The project is divided into two main directories: frontend and backend.
+| Capa | Tecnologías |
+|------|-------------|
+| **Backend** | Node.js, Express, TypeScript, Prisma, PostgreSQL |
+| **Testing Backend** | Jest, Supertest |
+| **Frontend** | React, React Router, React Bootstrap, Axios |
+| **Testing Frontend** | React Testing Library, Jest |
+| **Infraestructura** | Docker, Docker Compose |
 
-### Frontend
+---
 
-The frontend is a React application, and its main files are located in the src folder. The public folder contains static assets, and the build directory contains the production build of the application.
+## 🏗️ Arquitectura y Funcionalidades
 
 ### Backend
 
-The backend is an Express application written in TypeScript. The src directory contains the source code, divided into several subdirectories:
+El backend expone una API REST con los siguientes endpoints:
 
-- `application`: It contains the application logic.
-- `domain`: It contains the domain models.
-- `infrastructure`: It contains code related to the infrastructure.
-- `presentation`: It contains code related to the presentation layer.
-- `routes`: It contains the application routes.
-- `tests`: It contains the application tests.
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| `GET` | `/health` | Health check del servidor |
+| `GET` | `/candidates` | Obtiene la lista de todos los candidatos |
+| `POST` | `/candidates` | Crea un nuevo candidato |
+| `GET` | `/candidates/:id` | Obtiene el detalle de un candidato por ID |
+| `POST` | `/upload` | Sube archivos (CVs) |
 
-The `prisma` folder contains the Prisma schema.
+#### Modelo de Datos (Prisma)
 
-## First Steps
+```prisma
+model Candidate {
+  id                Int               @id @default(autoincrement())
+  firstName         String
+  lastName          String
+  email             String            @unique
+  phone             String?
+  address           String?
+  educations        Education[]
+  workExperiences   WorkExperience[]
+  resumes           Resume[]
+}
 
-To get started with this project, follow these steps:
+model Education {
+  id            Int       @id @default(autoincrement())
+  institution   String
+  title         String
+  startDate     DateTime
+  endDate       DateTime?
+  candidateId   Int
+}
 
-1. Clone the repo.
-2. Install the dependencies for front end and back end:
-```sh
-cd frontend
-npm install
+model WorkExperience {
+  id          Int       @id @default(autoincrement())
+  company     String
+  position    String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  candidateId Int
+}
 
-cd ../backend
-npm install
-```
-3. Build the back end server:
-```
-cd backend
-npm run build
-````
-4. Start the backend server:
-```
-cd backend
-npm start
-```
-5. In a new terminal window, build the frontend server:
-```
-cd frontend
-npm run build
-```
-6. Start the frontend server:
-```
-cd frontend
-npm start
-```
-
-The backend server will be running at http://localhost:3010, and the frontend will be available at http://localhost:3000.
-
-## Docker y PostgreSQL
-
-This project uses Docker to run a PostgreSQL database. Here’s how to get it up and running:
-
-Install Docker on your machine if you haven't done so already. You can download it from here.
-Navigate to the root directory of the project in your terminal.
-Run the following command to start the Docker container:
-```
-docker-compose up -d
-```
-This will start a PostgreSQL database in a Docker container. The -d flag runs the container in detached mode, which means it runs in the background.
-
-To access the PostgreSQL database, you can use any PostgreSQL client with the following connection details:
- - Host: localhost
- - Port: 5432
- - User: postgres
- - Password: password
- - Database: mydatabase
-
-Please replace User, Password, and Database with the actual username, password, and database name specified in your .env file.
-
-To stop the Docker container, run the following command:
-```
-docker-compose down
-```
-
-To generate the database using Prisma, follow these steps:
-
-1. Make sure that the `.env` file in the root directory of the backend contains the `DATABASE_URL` variable with the correct connection string to your PostgreSQL database. If it doesn’t work, try replacing the full URL directly in `schema.prisma`, in the `url` variable.
-
-2. Open a terminal and navigate to the backend directory where the `schema.prisma` file is located.
-
-3. Run the following command to apply the migrations to your database:
-
-```
-npx prisma migrate dev
-```
-
-Once you have completed all the steps, you should be able to save new candidates, both via the web and via the API, and see them in the database.
-
-```
-POST http://localhost:3010/candidates
-{
-    "firstName": "Albert",
-    "lastName": "Saelices",
-    "email": "albert.saelices@gmail.com",
-    "phone": "656874937",
-    "address": "Calle Sant Dalmir 2, 5ºB. Barcelona",
-    "educations": [
-        {
-            "institution": "UC3M",
-            "title": "Computer Science",
-            "startDate": "2006-12-31",
-            "endDate": "2010-12-26"
-        }
-    ],
-    "workExperiences": [
-        {
-            "company": "Coca Cola",
-            "position": "SWE",
-            "description": "",
-            "startDate": "2011-01-13",
-            "endDate": "2013-01-17"
-        }
-    ],
-    "cv": {
-        "filePath": "uploads/1715760936750-cv.pdf",
-        "fileType": "application/pdf"
-    }
+model Resume {
+  id          Int       @id @default(autoincrement())
+  filePath    String
+  fileType    String
+  uploadDate  DateTime
+  candidateId Int
 }
 ```
--------------------------------------------------------------
-
-# LTI - Sistema de Seguimiento de Talento | ES
-
-Este proyecto es una aplicación full-stack con un frontend en React y un backend en Express usando Prisma como un ORM. El frontend se inicia con Create React App y el backend está escrito en TypeScript.
-
-## Explicación de Directorios y Archivos
-
-- `backend/`: Contiene el código del lado del servidor escrito en Node.js.
-  - `src/`: Contiene el código fuente para el backend.
-    - `index.ts`: El punto de entrada para el servidor backend.
-    - `application/`: Contiene la lógica de aplicación.
-    - `domain/`: Contiene la lógica de negocio.
-    - `presentation/`: Contiene código relacionado con la capa de presentación (como controladores).
-    - `routes/`: Contiene las definiciones de rutas para la API.
-  - `prisma/`: Contiene el archivo de esquema de Prisma para ORM.
-  - `tsconfig.json`: Archivo de configuración de TypeScript.
-- `frontend/`: Contiene el código del lado del cliente escrito en React.
-  - `src/`: Contiene el código fuente para el frontend.
-  - `public/`: Contiene archivos estáticos como el archivo HTML e imágenes.
-  - `build/`: Contiene la construcción lista para producción del frontend.
-- `.env`: Contiene las variables de entorno.
-- `docker-compose.yml`: Contiene la configuración de Docker Compose para gestionar los servicios de tu aplicación.
-- `README.md`: Este archivo, contiene información sobre el proyecto e instrucciones sobre cómo ejecutarlo.
-
-## Estructura del Proyecto
-
-El proyecto está dividido en dos directorios principales: `frontend` y `backend`.
 
 ### Frontend
 
-El frontend es una aplicación React y sus archivos principales están ubicados en el directorio `src`. El directorio `public` contiene activos estáticos y el directorio `build` contiene la construcción de producción de la aplicación.
+El frontend ofrece las siguientes pantallas:
 
-### Backend
+| Componente | Ruta | Descripción |
+|------------|------|-------------|
+| `RecruiterDashboard` | `/` | Dashboard principal con accesos a las acciones principales |
+| `AddCandidateForm` | `/add-candidate` | Formulario para dar de alta un nuevo candidato |
+| `CandidateList` | `/candidates` | Listado de todos los candidatos registrados |
+| `CandidateDetail` | `/candidates/:id` | Detalle completo de un candidato |
 
-El backend es una aplicación Express escrita en TypeScript. El directorio `src` contiene el código fuente, dividido en varios subdirectorios:
+### Tests
 
-- `application`: Contiene la lógica de aplicación.
-- `domain`: Contiene los modelos de dominio.
-- `infrastructure`: Contiene código relacionado con la infraestructura.
-- `presentation`: Contiene código relacionado con la capa de presentación.
-- `routes`: Contiene las rutas de la aplicación.
-- `tests`: Contiene las pruebas de la aplicación.
+#### Backend (Jest + Supertest)
 
-El directorio `prisma` contiene el esquema de Prisma.
+- **`health.test.ts`**: Verifica que el endpoint `/health` responde con status 200 y `{ status: "OK" }`.
+- **`candidates.get.test.ts`**: Tests para `GET /candidates` - lista de candidatos y caso de lista vacía.
+- **`candidates.getById.test.ts`**: Tests para `GET /candidates/:id` - candidato encontrado, no encontrado (404) y error de BD (500).
+- **`candidates.create.test.ts`**: Tests para `POST /candidates` - creación exitosa con datos completos.
 
-## Primeros Pasos
+#### Frontend (React Testing Library)
 
-Para comenzar con este proyecto, sigue estos pasos:
+- **`AddCandidateForm.test.js`**: 
+  - Renderizado correcto del formulario
+  - Rellenado de campos
+  - Envío exitoso al backend
+  - Manejo de errores del servidor
+  - Validación de campos obligatorios
+  - Validación de formato de email
+  - Limpieza de errores al modificar campos
 
-1. Clona el repositorio.
-2. Instala las dependencias para el frontend y el backend:
-```sh
-cd frontend
-npm install
+- **`CandidateList.test.js`**:
+  - Spinner de carga inicial
+  - Renderizado de lista con candidatos
+  - Mensaje cuando no hay candidatos
+  - Manejo de errores de red
+  - Botones de "Ver detalle"
 
-cd ../backend
-npm install
+---
+
+## ✅ Requisitos Previos
+
+- **Node.js** v18 o superior (recomendado v20 LTS)
+- **Docker** y **Docker Compose**
+- **npm** (incluido con Node.js)
+
+---
+
+## 🚀 Cómo Ejecutar la Aplicación
+
+### 1. Levantar la Base de Datos
+
+Primero, crea un archivo `.env` en la raíz del proyecto con las variables de entorno necesarias:
+
+```env
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_NAME=lti_db
+DB_PORT=5432
 ```
-3. Construye el servidor backend:
-```
-cd backend
-npm run build
-````
-4. Inicia el servidor backend:
-```
-cd backend
-npm start
-```
-5. En una nueva ventana de terminal, construye el servidor frontend:
-```
-cd frontend
-npm run build
-```
-6. Inicia el servidor frontend:
-```
-cd frontend
-npm start
-```
 
-El servidor backend estará corriendo en http://localhost:3010 y el frontend estará disponible en http://localhost:3000.
+Luego levanta PostgreSQL con Docker:
 
-## Docker y PostgreSQL
-
-Este proyecto usa Docker para ejecutar una base de datos PostgreSQL. Así es cómo ponerlo en marcha:
-
-Instala Docker en tu máquina si aún no lo has hecho. Puedes descargarlo desde aquí.
-Navega al directorio raíz del proyecto en tu terminal.
-Ejecuta el siguiente comando para iniciar el contenedor Docker:
-```
+```bash
 docker-compose up -d
 ```
-Esto iniciará una base de datos PostgreSQL en un contenedor Docker. La bandera -d corre el contenedor en modo separado, lo que significa que se ejecuta en segundo plano.
 
-Para acceder a la base de datos PostgreSQL, puedes usar cualquier cliente PostgreSQL con los siguientes detalles de conexión:
- - Host: localhost
- - Port: 5432
- - User: postgres
- - Password: password
- - Database: mydatabase
+### 2. Configurar y Ejecutar el Backend
 
-Por favor, reemplaza User, Password y Database con el usuario, la contraseña y el nombre de la base de datos reales especificados en tu archivo .env.
-
-Para detener el contenedor Docker, ejecuta el siguiente comando:
-```
-docker-compose down
+```bash
+cd backend
+npm install
 ```
 
-Para generar la base de datos utilizando Prisma, sigue estos pasos:
+Crea un archivo `.env` en la carpeta `backend/`:
 
-1. Asegúrate de que el archivo `.env` en el directorio raíz del backend contenga la variable `DATABASE_URL` con la cadena de conexión correcta a tu base de datos PostgreSQL. Si no te funciona, prueba a reemplazar la URL completa directamente en `schema.prisma`, en la variable `url`.
-
-2. Abre una terminal y navega al directorio del backend donde se encuentra el archivo `schema.prisma`.
-
-3. Ejecuta el siguiente comando para aplicar las migraciones a tu base de datos:
+```env
+DATABASE_URL="postgresql://postgres:your_password@localhost:5432/lti_db?schema=public"
 ```
+
+Ejecuta las migraciones de Prisma y arranca el servidor:
+
+```bash
 npx prisma migrate dev
+npx prisma generate
+npm run build
+npm start
 ```
 
-Una vez has dado todos los pasos, deberías poder guardar nuevos candidatos, tanto via web, como via API, y verlos en la base de datos.
+El backend estará disponible en: **http://localhost:3010**
+
+### 3. Ejecutar el Frontend
+
+En una nueva terminal:
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+El frontend estará disponible en: **http://localhost:3000**
+
+### URLs Principales
+
+| Servicio | URL |
+|----------|-----|
+| Frontend | http://localhost:3000 |
+| Backend API | http://localhost:3010 |
+| Health Check | http://localhost:3010/health |
+
+---
+
+## 🧪 Cómo Ejecutar los Tests
+
+### Tests del Backend
+
+```bash
+cd backend
+npm test
+```
+
+Para ejecutar en modo watch:
+
+```bash
+npm run test:watch
+```
+
+Para ver el reporte de cobertura:
+
+```bash
+npm run test:coverage
+```
+
+### Tests del Frontend
+
+```bash
+cd frontend
+npm test -- --watchAll=false
+```
+
+Para modo interactivo:
+
+```bash
+npm test
+```
+
+---
+
+## 💡 Detalles de Implementación Interesantes
+
+### Enfoque TDD en el Backend
+
+Los tests del backend fueron desarrollados siguiendo el enfoque **Test-Driven Development (TDD)**:
+
+1. Se escribieron primero los tests con Supertest para cada endpoint.
+2. Se utilizaron mocks de Prisma para aislar los tests de la base de datos real.
+3. Los tests verifican tanto los casos de éxito como los de error (404, 500).
+
+### Tests de Frontend
+
+Se implementaron tests unitarios para los componentes principales usando React Testing Library:
+
+- **Mocks de servicios**: Se mockean las llamadas al backend para tests aislados.
+- **Mocks de react-router-dom**: Para probar la navegación.
+- **Simulación de interacciones**: Uso de `userEvent` y `fireEvent` para simular acciones del usuario.
+
+### Mejoras de UX Implementadas
+
+- **Loader animado**: Componente `Loader` con animación SVG mientras se cargan los datos.
+- **Validación amigable**: Mensajes de error claros para campos obligatorios y formato de email.
+- **Redirección tras alta**: Tras crear un candidato exitosamente, se muestra mensaje de éxito.
+- **Estilo unificado**: Uso de `SharedStyles.css` para mantener consistencia visual entre pantallas.
+- **Estados de carga y error**: Spinners durante la carga y alertas descriptivas en caso de error.
+
+---
+
+## 🔮 Posibles Mejoras Futuras
+
+- **Edición de candidatos**: Endpoint `PUT /candidates/:id` y formulario de edición.
+- **Eliminación de candidatos**: Endpoint `DELETE /candidates/:id` con confirmación.
+- **Paginación en el listado**: Para manejar grandes volúmenes de candidatos.
+- **Filtros de búsqueda**: Por nombre, email, o rango de fechas.
+- **Gestión de CVs**: Visualización y descarga de los archivos subidos.
+- **Autenticación**: Sistema de login para reclutadores.
+
+---
+
+## 📁 Estructura del Proyecto
 
 ```
-POST http://localhost:3010/candidates
-{
-    "firstName": "Albert",
-    "lastName": "Saelices",
-    "email": "albert.saelices@gmail.com",
-    "phone": "656874937",
-    "address": "Calle Sant Dalmir 2, 5ºB. Barcelona",
-    "educations": [
-        {
-            "institution": "UC3M",
-            "title": "Computer Science",
-            "startDate": "2006-12-31",
-            "endDate": "2010-12-26"
-        }
-    ],
-    "workExperiences": [
-        {
-            "company": "Coca Cola",
-            "position": "SWE",
-            "description": "",
-            "startDate": "2011-01-13",
-            "endDate": "2013-01-17"
-        }
-    ],
-    "cv": {
-        "filePath": "uploads/1715760936750-cv.pdf",
-        "fileType": "application/pdf"
-    }
-}
+AI4Devs-tdd-RO-202510/
+├── backend/
+│   ├── src/
+│   │   ├── application/services/     # Lógica de negocio
+│   │   ├── domain/models/            # Modelos de dominio
+│   │   ├── infrastructure/           # Cliente Prisma
+│   │   ├── presentation/controllers/ # Controladores
+│   │   ├── routes/                   # Definición de rutas
+│   │   └── index.ts                  # Entry point
+│   ├── tests/                        # Tests del backend
+│   ├── prisma/                       # Schema y migraciones
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/               # Componentes React
+│   │   ├── services/                 # Servicios de API
+│   │   └── App.tsx                   # Componente principal
+│   └── package.json
+├── docker-compose.yml                # Configuración de PostgreSQL
+└── README.md
 ```
+
+---
+
+## 📝 Licencia
+
+Este proyecto es un ejercicio educativo de LIDR Academy.

@@ -1,0 +1,488 @@
+/* =============================================
+   Shared Styles - Diseño coherente con AddCandidateForm
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* =============================================
+   Page wrapper con fondo oscuro degradado
+   ============================================= */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Efecto de partículas/decoración en el fondo */
+.page-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(79, 109, 245, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  animation: bgPulseShared 8s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulseShared {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.1) rotate(3deg); opacity: 0.8; }
+}
+
+/* =============================================
+   Card principal - Estilo coherente
+   ============================================= */
+.main-card {
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 
+    0 50px 100px rgba(0, 0, 0, 0.25),
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  max-width: 900px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  animation: cardReveal 800ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  overflow: hidden;
+}
+
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(60px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* =============================================
+   Card Header
+   ============================================= */
+.main-card-header {
+  background: linear-gradient(160deg, #4f6df5 0%, #6b5ce7 50%, #8b5cf6 100%);
+  padding: 32px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo animado en header */
+.main-card-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmerHeader 3s ease-in-out infinite;
+}
+
+@keyframes shimmerHeader {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+.main-card-header .card-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.main-card-header .card-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  margin-top: 8px;
+  font-weight: 400;
+  position: relative;
+  z-index: 1;
+}
+
+.main-card-header .header-icon {
+  font-size: 2.5rem;
+  margin-right: 16px;
+  vertical-align: middle;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* =============================================
+   Card Body
+   ============================================= */
+.main-card-body {
+  padding: 40px;
+}
+
+/* =============================================
+   Card Footer
+   ============================================= */
+.main-card-footer {
+  background: #f8fafc;
+  padding: 20px 40px;
+  border-top: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* =============================================
+   Títulos y textos
+   ============================================= */
+.section-title {
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  letter-spacing: -0.3px;
+}
+
+.section-subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+/* =============================================
+   Botones - Estilos coherentes
+   ============================================= */
+.btn-primary-custom {
+  background: linear-gradient(135deg, #4f6df5 0%, #6b5ce7 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 14px 28px !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 4px 20px rgba(79, 109, 245, 0.35) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 30px rgba(79, 109, 245, 0.45) !important;
+  background: linear-gradient(135deg, #5b7bf7 0%, #7b6ce9 100%) !important;
+  color: #ffffff !important;
+}
+
+.btn-primary-custom:active {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 15px rgba(79, 109, 245, 0.4) !important;
+}
+
+.btn-secondary-custom {
+  background: #f1f5f9 !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  color: #475569 !important;
+  transition: all 0.3s ease !important;
+  text-decoration: none !important;
+}
+
+.btn-secondary-custom:hover {
+  background: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
+  transform: translateY(-2px) !important;
+  color: #334155 !important;
+}
+
+.btn-info-custom {
+  background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  padding: 10px 20px !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3) !important;
+}
+
+.btn-info-custom:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4) !important;
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%) !important;
+  color: #ffffff !important;
+}
+
+/* =============================================
+   Dashboard Cards Grid
+   ============================================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.dashboard-action-card {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e2e8f0;
+}
+
+.dashboard-action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.dashboard-action-card .card-icon {
+  font-size: 2.5rem;
+  color: #4f6df5;
+  margin-bottom: 16px;
+}
+
+.dashboard-action-card h5 {
+  color: #0f172a;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* =============================================
+   Logo styling
+   ============================================= */
+.dashboard-logo {
+  width: 100px;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* =============================================
+   Table Styles - Coherentes con el diseño
+   ============================================= */
+.styled-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.styled-table thead {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.styled-table thead th {
+  color: #ffffff;
+  font-weight: 600;
+  padding: 16px 20px;
+  text-align: left;
+  border: none;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.styled-table thead th:first-child {
+  border-radius: 12px 0 0 0;
+}
+
+.styled-table thead th:last-child {
+  border-radius: 0 12px 0 0;
+}
+
+.styled-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.styled-table tbody tr:hover {
+  background: #f1f5f9;
+}
+
+.styled-table tbody td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.styled-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.styled-table tbody tr:last-child td:first-child {
+  border-radius: 0 0 0 12px;
+}
+
+.styled-table tbody tr:last-child td:last-child {
+  border-radius: 0 0 12px 0;
+}
+
+/* =============================================
+   Alert Styles - Coherentes
+   ============================================= */
+.alert-custom {
+  border-radius: 12px;
+  border: none;
+  padding: 20px 24px;
+  font-weight: 500;
+}
+
+.alert-info-custom {
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  color: #0369a1;
+}
+
+.alert-danger-custom {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+/* =============================================
+   Loading State - Coherente con AddCandidateForm
+   ============================================= */
+.loading-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  gap: 20px;
+  position: relative;
+}
+
+.loading-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(79, 109, 245, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
+  pointer-events: none;
+  animation: bgPulseShared 8s ease-in-out infinite alternate;
+}
+
+.loading-wrapper .spinner-border {
+  width: 50px;
+  height: 50px;
+  border-width: 4px;
+  color: #8b5cf6 !important;
+  z-index: 1;
+}
+
+.loading-wrapper p {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  z-index: 1;
+}
+
+/* =============================================
+   Back Button Styling
+   ============================================= */
+.back-button-wrapper {
+  margin-bottom: 24px;
+}
+
+/* =============================================
+   Responsive
+   ============================================= */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 24px;
+  }
+
+  .main-card {
+    border-radius: 20px;
+  }
+
+  .main-card-header {
+    padding: 24px;
+  }
+
+  .main-card-header .card-title {
+    font-size: 1.5rem;
+  }
+
+  .main-card-body {
+    padding: 24px;
+  }
+
+  .main-card-footer {
+    padding: 16px 24px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-action-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: 12px;
+  }
+
+  .main-card {
+    border-radius: 16px;
+  }
+
+  .main-card-header {
+    padding: 20px;
+  }
+
+  .main-card-header .card-title {
+    font-size: 1.3rem;
+  }
+
+  .main-card-header .header-icon {
+    font-size: 2rem;
+    margin-right: 12px;
+  }
+
+  .main-card-body {
+    padding: 20px;
+  }
+
+  .btn-primary-custom,
+  .btn-secondary-custom {
+    padding: 12px 20px !important;
+    font-size: 0.85rem !important;
+    width: 100%;
+  }
+}
+

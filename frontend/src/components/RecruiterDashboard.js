@@ -1,41 +1,53 @@
 import React from 'react';
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { PersonPlusFill, PeopleFill } from 'react-bootstrap-icons';
-import logo from '../assets/lti-logo.png'; // Ruta actualizada para importar desde src/assets
+import logo from '../assets/lti-logo.png';
+import './SharedStyles.css';
 
 const RecruiterDashboard = () => {
     return (
-        <Container className="mt-5">
-            <div className="text-center"> {/* Contenedor para el logo */}
-                <img src={logo} alt="LTI Logo" style={{ width: '150px' }} />
+        <div className="page-wrapper">
+            <div className="main-card">
+                {/* Header con gradiente */}
+                <div className="main-card-header" style={{ textAlign: 'center' }}>
+                    <img src={logo} alt="LTI Logo" className="dashboard-logo" />
+                    <h1 className="card-title">Dashboard del Reclutador</h1>
+                    <p className="card-subtitle">Gestiona candidatos de forma eficiente</p>
+                </div>
+
+                {/* Body con las acciones */}
+                <div className="main-card-body">
+                    <div className="dashboard-grid">
+                        {/* Card Añadir Candidato */}
+                        <div className="dashboard-action-card">
+                            <PersonPlusFill className="card-icon" />
+                            <h5>Añadir Candidato</h5>
+                            <Link to="/add-candidate">
+                                <button className="btn-primary-custom">
+                                    Añadir Nuevo Candidato
+                                </button>
+                            </Link>
+                        </div>
+
+                        {/* Card Ver Candidatos */}
+                        <div className="dashboard-action-card">
+                            <PeopleFill className="card-icon" />
+                            <h5>Ver Candidatos</h5>
+                            <Link to="/candidates">
+                                <button className="btn-primary-custom">
+                                    Ver Listado de Candidatos
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div className="main-card-footer" style={{ textAlign: 'center' }}>
+                    Sistema de Gestión de Candidatos - LTI
+                </div>
             </div>
-            <h1 className="mb-4 text-center">Dashboard del Reclutador</h1>
-            <Row>
-                <Col md={6}>
-                    <Card className="shadow p-4 mb-4">
-                        <h5 className="mb-4">
-                            <PersonPlusFill className="me-2" />
-                            Añadir Candidato
-                        </h5>
-                        <Link to="/add-candidate">
-                            <Button variant="primary" className="btn-block">Añadir Nuevo Candidato</Button>
-                        </Link>
-                    </Card>
-                </Col>
-                <Col md={6}>
-                    <Card className="shadow p-4 mb-4">
-                        <h5 className="mb-4">
-                            <PeopleFill className="me-2" />
-                            Ver Candidatos
-                        </h5>
-                        <Link to="/candidates">
-                            <Button variant="info" className="btn-block">Ver Listado de Candidatos</Button>
-                        </Link>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+        </div>
     );
 };
 

@@ -1,0 +1,218 @@
+/* =============================================
+   CandidateDetail - Estilos específicos del detalle
+   ============================================= */
+
+/* Card de detalle con max-width similar al formulario */
+.candidate-detail-card {
+    max-width: 800px;
+}
+
+/* =============================================
+   Secciones de información
+   ============================================= */
+.detail-section {
+    margin-bottom: 32px;
+}
+
+.detail-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Título de sección estilo formulario */
+.detail-section-title {
+    color: #4f6df5;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detail-section-title::before {
+    content: "";
+    width: 4px;
+    height: 18px;
+    background: linear-gradient(180deg, #4f6df5, #8b5cf6);
+    border-radius: 2px;
+}
+
+.detail-section-title .section-icon {
+    font-size: 1rem;
+    color: #4f6df5;
+}
+
+/* =============================================
+   Grid de información de contacto
+   ============================================= */
+.detail-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.detail-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.detail-info-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.detail-info-icon {
+    font-size: 1.25rem;
+    color: #4f6df5;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.detail-info-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.detail-info-value {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* =============================================
+   Lista de items (Educación, Experiencia)
+   ============================================= */
+.detail-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.detail-list-item {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.detail-list-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.detail-item-main {
+    font-size: 1rem;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.detail-item-main strong {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.detail-item-subtitle {
+    font-weight: 400;
+    color: #475569;
+}
+
+.detail-item-description {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 8px 0 4px 0;
+    line-height: 1.5;
+}
+
+.detail-item-dates {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* =============================================
+   Badge personalizado
+   ============================================= */
+.detail-badge {
+    background: linear-gradient(135deg, #4f6df5 0%, #6b5ce7 100%) !important;
+    color: #ffffff !important;
+    font-size: 0.7rem !important;
+    font-weight: 600 !important;
+    padding: 4px 10px !important;
+    border-radius: 12px !important;
+    margin-left: auto;
+}
+
+/* =============================================
+   Responsive
+   ============================================= */
+@media (max-width: 768px) {
+    .candidate-detail-card {
+        max-width: 100%;
+    }
+
+    .detail-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-info-item {
+        padding: 16px;
+    }
+
+    .detail-list-item {
+        padding: 16px;
+    }
+
+    .detail-section-title {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-section {
+        margin-bottom: 24px;
+    }
+
+    .detail-info-item {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+
+    .detail-info-icon {
+        font-size: 1.5rem;
+    }
+
+    .detail-item-main {
+        font-size: 0.95rem;
+    }
+
+    .detail-item-subtitle {
+        display: block;
+        margin-top: 4px;
+    }
+}
+

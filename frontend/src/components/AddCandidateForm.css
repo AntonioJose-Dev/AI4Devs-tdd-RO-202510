@@ -1,0 +1,704 @@
+/* =============================================
+   AddCandidateForm - Diseño moderno tipo Pepsi Card
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Contenedor principal de página completa */
+.add-candidate-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Efecto de partículas/decoración en el fondo */
+.add-candidate-page::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(79, 109, 245, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  animation: bgPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.1) rotate(3deg); opacity: 0.8; }
+}
+
+/* =============================================
+   Card Principal Única - Estilo Pepsi
+   ============================================= */
+.add-candidate-main-card {
+  display: flex;
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 
+    0 50px 100px rgba(0, 0, 0, 0.25),
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  max-width: 1100px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* =============================================
+   Animación mainCardReveal - Efecto elástico tipo Pepsi
+   ============================================= */
+@keyframes mainCardReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(60px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.add-candidate-main-card.main-card-reveal {
+  animation: mainCardReveal 800ms cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* =============================================
+   Lado Izquierdo - Ilustración de Recruiting
+   ============================================= */
+.main-card-illustration {
+  flex: 0 0 420px;
+  background: linear-gradient(160deg, #4f6df5 0%, #6b5ce7 50%, #8b5cf6 100%);
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo animado */
+.main-card-illustration::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}
+
+/* Patrón decorativo de fondo */
+.main-card-illustration::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(255,255,255,0.08) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+.illustration-wrapper {
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+  z-index: 1;
+  animation: floatIllustration 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatIllustration {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(1deg); }
+}
+
+.illustration-wrapper svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+}
+
+.illustration-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-top: 32px;
+}
+
+.illustration-title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin: 0 0 12px 0;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+}
+
+.illustration-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+  font-weight: 400;
+}
+
+.illustration-badges {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.badge-item {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
+}
+
+.badge-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* =============================================
+   Lado Derecho - Formulario
+   ============================================= */
+.main-card-form {
+  flex: 1;
+  padding: 48px 44px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #ffffff;
+}
+
+/* Scrollbar personalizado */
+.main-card-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.main-card-form::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.main-card-form::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4f6df5, #8b5cf6);
+  border-radius: 3px;
+}
+
+.main-card-form::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #3b5de7, #7c4de8);
+}
+
+/* Título del formulario */
+.main-card-form .form-title {
+  color: #0f172a;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  text-align: left;
+  letter-spacing: -0.5px;
+}
+
+.main-card-form .form-subtitle {
+  color: #64748b;
+  font-size: 1rem;
+  text-align: left;
+  margin-bottom: 32px;
+  font-weight: 400;
+}
+
+/* =============================================
+   Estilos de los campos del formulario
+   ============================================= */
+.main-card-form .form-label {
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.main-card-form .form-control {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.main-card-form .form-control:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.main-card-form .form-control:focus {
+  border-color: #4f6df5;
+  background-color: #ffffff;
+  box-shadow: 
+    0 0 0 4px rgba(79, 109, 245, 0.12),
+    0 4px 12px rgba(79, 109, 245, 0.08);
+  outline: none;
+}
+
+.main-card-form .form-control::placeholder {
+  color: #94a3b8;
+}
+
+/* Secciones del formulario */
+.main-card-form .form-section-title {
+  color: #4f6df5;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.main-card-form .form-section-title::before {
+  content: "";
+  width: 4px;
+  height: 18px;
+  background: linear-gradient(180deg, #4f6df5, #8b5cf6);
+  border-radius: 2px;
+}
+
+/* Botones */
+.main-card-form .btn-primary {
+  background: linear-gradient(135deg, #4f6df5 0%, #6b5ce7 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 16px 32px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(79, 109, 245, 0.35);
+  text-transform: none;
+  letter-spacing: 0.3px;
+}
+
+.main-card-form .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(79, 109, 245, 0.45);
+  background: linear-gradient(135deg, #5b7bf7 0%, #7b6ce9 100%);
+}
+
+.main-card-form .btn-primary:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(79, 109, 245, 0.4);
+}
+
+.main-card-form .btn-danger {
+  border-radius: 10px;
+  font-size: 0.85rem;
+  padding: 10px 18px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.main-card-form .btn-danger:hover {
+  transform: translateY(-2px);
+}
+
+.main-card-form .btn-sm {
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+/* Alertas */
+.main-card-form .alert {
+  border-radius: 12px;
+  border: none;
+  font-weight: 500;
+  padding: 16px 20px;
+}
+
+.main-card-form .alert-success {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+}
+
+.main-card-form .alert-danger {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+}
+
+/* =============================================
+   Responsive Design
+   ============================================= */
+@media (max-width: 1024px) {
+  .add-candidate-main-card {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .main-card-illustration {
+    flex: none;
+    padding: 40px 32px;
+  }
+
+  .illustration-wrapper {
+    max-width: 260px;
+  }
+
+  .illustration-title {
+    font-size: 1.5rem;
+  }
+
+  .main-card-form {
+    max-height: none;
+    padding: 36px 32px;
+  }
+
+  .main-card-form .form-title {
+    text-align: center;
+    font-size: 1.75rem;
+  }
+
+  .main-card-form .form-subtitle {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-candidate-page {
+    padding: 16px;
+  }
+
+  .add-candidate-main-card {
+    border-radius: 20px;
+  }
+
+  .main-card-illustration {
+    padding: 32px 24px;
+  }
+
+  .illustration-wrapper {
+    max-width: 200px;
+  }
+
+  .illustration-title {
+    font-size: 1.3rem;
+  }
+
+  .illustration-description {
+    font-size: 0.9rem;
+  }
+
+  .badge-item {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+
+  .main-card-form {
+    padding: 28px 24px;
+  }
+
+  .main-card-form .form-title {
+    font-size: 1.5rem;
+  }
+
+  .main-card-form .form-control {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-candidate-page {
+    padding: 12px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .add-candidate-main-card {
+    border-radius: 16px;
+  }
+
+  .main-card-illustration {
+    padding: 24px 20px;
+  }
+
+  .illustration-wrapper {
+    max-width: 160px;
+  }
+
+  .illustration-content {
+    margin-top: 20px;
+  }
+
+  .illustration-title {
+    font-size: 1.15rem;
+  }
+
+  .illustration-description {
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+
+  .illustration-badges {
+    gap: 8px;
+  }
+
+  .main-card-form {
+    padding: 24px 20px;
+  }
+
+  .main-card-form .form-title {
+    font-size: 1.3rem;
+  }
+
+  .main-card-form .form-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .main-card-form .btn-primary {
+    padding: 14px 24px;
+  }
+}
+
+/* DatePicker custom styles */
+.main-card-form .react-datepicker-wrapper {
+  width: 100%;
+}
+
+.main-card-form .react-datepicker__input-container input {
+  width: 100%;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #f8fafc;
+}
+
+.main-card-form .react-datepicker__input-container input:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.main-card-form .react-datepicker__input-container input:focus {
+  border-color: #4f6df5;
+  background-color: #ffffff;
+  box-shadow: 
+    0 0 0 4px rgba(79, 109, 245, 0.12),
+    0 4px 12px rgba(79, 109, 245, 0.08);
+  outline: none;
+}
+
+/* =============================================
+   Loader Animation Styles
+   ============================================= */
+
+/* Contenedor del loader centrado */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  gap: 20px;
+  position: relative;
+}
+
+/* Efecto de fondo para el loader */
+.loader-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(79, 109, 245, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.12) 0%, transparent 40%);
+  pointer-events: none;
+  animation: bgPulse 8s ease-in-out infinite alternate;
+}
+
+.loader {
+  --path: #ffffff;
+  --dot: #8b5cf6;
+  --duration: 3s;
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.loader::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  background: var(--dot);
+  top: 37px;
+  left: 19px;
+  transform: translate(-18px, -18px);
+  animation: dotRect var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+  box-shadow: 0 0 12px var(--dot);
+}
+
+.loader svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.loader svg rect,
+.loader svg polygon,
+.loader svg circle {
+  fill: none;
+  stroke: var(--path);
+  stroke-width: 10px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.loader svg polygon {
+  stroke-dasharray: 145 76 145 76;
+  stroke-dashoffset: 0;
+  animation: pathTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+.loader svg rect {
+  stroke-dasharray: 192 64 192 64;
+  stroke-dashoffset: 0;
+  animation: pathRect 3s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+.loader svg circle {
+  stroke-dasharray: 150 50 150 50;
+  stroke-dashoffset: 75;
+  animation: pathCircle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+.loader.triangle {
+  width: 54px;
+}
+
+.loader.triangle::before {
+  left: 21px;
+  transform: translate(-10px, -18px);
+  animation: dotTriangle var(--duration) cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+}
+
+/* Keyframes para el triángulo */
+@keyframes pathTriangle {
+  33% {
+    stroke-dashoffset: 74;
+  }
+  66% {
+    stroke-dashoffset: 147;
+  }
+  100% {
+    stroke-dashoffset: 221;
+  }
+}
+
+@keyframes dotTriangle {
+  33% {
+    transform: translate(0, 0);
+  }
+  66% {
+    transform: translate(10px, -18px);
+  }
+  100% {
+    transform: translate(-10px, -18px);
+  }
+}
+
+/* Keyframes para el rectángulo */
+@keyframes pathRect {
+  25% {
+    stroke-dashoffset: 64;
+  }
+  50% {
+    stroke-dashoffset: 128;
+  }
+  75% {
+    stroke-dashoffset: 192;
+  }
+  100% {
+    stroke-dashoffset: 256;
+  }
+}
+
+@keyframes dotRect {
+  25% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(18px, -18px);
+  }
+  75% {
+    transform: translate(0, -36px);
+  }
+  100% {
+    transform: translate(-18px, -18px);
+  }
+}
+
+/* Keyframes para el círculo */
+@keyframes pathCircle {
+  25% {
+    stroke-dashoffset: 125;
+  }
+  50% {
+    stroke-dashoffset: 175;
+  }
+  75% {
+    stroke-dashoffset: 225;
+  }
+  100% {
+    stroke-dashoffset: 275;
+  }
+}

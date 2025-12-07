@@ -3,6 +3,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddCandidateForm from './AddCandidateForm';
 
+// Mock de useNavigate de react-router-dom
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useNavigate: () => mockNavigate
+}));
+
 // Mock del componente FileUploader para simplificar el test
 jest.mock('./FileUploader', () => {
     return function MockFileUploader() {
@@ -21,11 +28,16 @@ describe('AddCandidateForm', () => {
     beforeEach(() => {
         // Reset de mocks antes de cada test
         jest.clearAllMocks();
+        mockNavigate.mockClear();
+        // Usar fake timers para controlar setTimeout
+        jest.useFakeTimers();
     });
 
     afterEach(() => {
         // Restaurar fetch después de cada test
         jest.restoreAllMocks();
+        // Restaurar timers reales
+        jest.useRealTimers();
     });
 
     it('renderiza el formulario correctamente', () => {
@@ -127,10 +139,11 @@ describe('AddCandidateForm', () => {
 
         render(<AddCandidateForm />);
 
-        // Rellenar campos mínimos
+        // Rellenar campos mínimos (incluyendo teléfono que ahora es obligatorio)
         await userEvent.type(screen.getByLabelText(/nombre/i), 'Test');
         await userEvent.type(screen.getByLabelText(/apellido/i), 'User');
         await userEvent.type(screen.getByLabelText(/correo electrónico/i), 'test@test.com');
+        await userEvent.type(screen.getByLabelText(/teléfono/i), '123456789');
 
         // Enviar formulario
         fireEvent.click(screen.getByRole('button', { name: /enviar/i }));
@@ -138,6 +151,73 @@ describe('AddCandidateForm', () => {
         // Verificar mensaje de error
         await waitFor(() => {
             expect(screen.getByText(/error al añadir candidato/i)).toBeInTheDocument();
+        });
+    });
+
+    it('muestra errores de validación cuando los campos están vacíos', async () => {
+        render(<AddCandidateForm />);
+
+        // Enviar formulario sin rellenar ningún campo
+        const submitButton = screen.getByRole('button', { name: /enviar/i });
+        fireEvent.click(submitButton);
+
+        // Verificar que se muestran los mensajes de error
+        await waitFor(() => {
+            const errorMessages = screen.getAllByText('Este campo es obligatorio');
+            expect(errorMessages.length).toBe(4); // firstName, lastName, email, phone
+        });
+    });
+
+    it('muestra error de formato de correo inválido', async () => {
+        render(<AddCandidateForm />);
+
+        // Rellenar campos con email inválido
+        await userEvent.type(screen.getByLabelText(/nombre/i), 'Test');
+        await userEvent.type(screen.getByLabelText(/apellido/i), 'User');
+        await userEvent.type(screen.getByLabelText(/correo electrónico/i), 'correo-invalido');
+        await userEvent.type(screen.getByLabelText(/teléfono/i), '123456789');
+
+        // Enviar formulario
+        fireEvent.click(screen.getByRole('button', { name: /enviar/i }));
+
+        // Verificar mensaje de error de formato de correo
+        await waitFor(() => {
+            expect(screen.getByText('Formato de correo no válido')).toBeInTheDocument();
+        });
+    });
+
+    it('no llama al backend cuando hay errores de validación', async () => {
+        const mockFetch = jest.fn();
+        global.fetch = mockFetch;
+
+        render(<AddCandidateForm />);
+
+        // Enviar formulario sin rellenar campos
+        fireEvent.click(screen.getByRole('button', { name: /enviar/i }));
+
+        // Esperar un momento y verificar que fetch NO fue llamado
+        await waitFor(() => {
+            expect(mockFetch).not.toHaveBeenCalled();
+        });
+    });
+
+    it('limpia el error de un campo cuando el usuario lo modifica', async () => {
+        render(<AddCandidateForm />);
+
+        // Enviar formulario vacío para generar errores
+        fireEvent.click(screen.getByRole('button', { name: /enviar/i }));
+
+        // Verificar que hay errores
+        await waitFor(() => {
+            expect(screen.getAllByText('Este campo es obligatorio').length).toBe(4);
+        });
+
+        // Escribir en el campo nombre
+        await userEvent.type(screen.getByLabelText(/nombre/i), 'Juan');
+
+        // Verificar que ahora hay un error menos (3 en vez de 4)
+        await waitFor(() => {
+            expect(screen.getAllByText('Este campo es obligatorio').length).toBe(3);
         });
     });
 });
