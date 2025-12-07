@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import AddCandidateForm from './AddCandidateForm';
+import { API_BASE_URL } from '../services/candidateService';
 
 // Mock de useNavigate de react-router-dom
 const mockNavigate = jest.fn();
@@ -102,7 +103,7 @@ describe('AddCandidateForm', () => {
 
         // Verificar la URL y el método
         expect(mockFetch).toHaveBeenCalledWith(
-            'http://localhost:3010/candidates',
+            `${API_BASE_URL}/candidates`,
             expect.objectContaining({
                 method: 'POST',
                 headers: {

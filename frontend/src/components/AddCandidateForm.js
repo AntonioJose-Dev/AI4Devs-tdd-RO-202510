@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Alert, FormControl, Row, Col } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './AddCandidateForm.css';
 import Loader from './Loader';
+import { API_BASE_URL } from '../services/candidateService';
 
 // Ilustración SVG de recruiting moderna y atractiva
 const RecruitingIllustration = () => (
@@ -71,6 +72,15 @@ const RecruitingIllustration = () => (
 
 const AddCandidateForm = () => {
     const navigate = useNavigate();
+    const navigationTimeoutRef = useRef(null);
+
+    // Cleanup del timeout de navegación al desmontar el componente
+    useEffect(() => {
+        return () => {
+            if (navigationTimeoutRef.current) clearTimeout(navigationTimeoutRef.current);
+        };
+    }, []);
+
     // En ambiente de test, omitimos el loader para que los tests puedan acceder al formulario inmediatamente
     const isTestEnv = process.env.NODE_ENV === 'test';
     const [isLoading, setIsLoading] = useState(!isTestEnv);
@@ -209,7 +219,7 @@ const AddCandidateForm = () => {
                 endDate: experience.endDate ? experience.endDate.toISOString().slice(0, 10) : ''
             }));
 
-            const res = await fetch('http://localhost:3010/candidates', {
+            const res = await fetch(`${API_BASE_URL}/candidates`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -221,7 +231,7 @@ const AddCandidateForm = () => {
                 setSuccessMessage('Candidato añadido con éxito');
                 setError('');
                 // Navegar a la lista de candidatos después de 2 segundos
-                setTimeout(() => {
+                navigationTimeoutRef.current = setTimeout(() => {
                     navigate('/candidates');
                 }, 2000);
             } else if (res.status === 400) {

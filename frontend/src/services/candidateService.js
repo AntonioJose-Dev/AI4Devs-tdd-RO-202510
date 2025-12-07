@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3010';
+export const API_BASE_URL = 'http://localhost:3010';
 
 export const uploadCV = async (file) => {
     const formData = new FormData();
@@ -28,11 +28,23 @@ export const sendCandidateData = async (candidateData) => {
 };
 
 export const getAllCandidates = async () => {
-    const response = await axios.get(`${API_BASE_URL}/candidates`);
-    return response.data;
+    try {
+        const response = await axios.get(`${API_BASE_URL}/candidates`);
+        return response.data;
+    } catch (error) {
+        throw new Error(
+            'Error al obtener candidatos: ' + (error.response?.data?.message || error.message)
+        );
+    }
 };
 
 export const getCandidateById = async (id) => {
-    const response = await axios.get(`${API_BASE_URL}/candidates/${id}`);
-    return response.data;
+    try {
+        const response = await axios.get(`${API_BASE_URL}/candidates/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error(
+            'Error al obtener candidato: ' + (error.response?.data?.message || error.message)
+        );
+    }
 };
