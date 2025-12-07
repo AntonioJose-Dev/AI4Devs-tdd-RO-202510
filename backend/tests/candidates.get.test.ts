@@ -117,5 +117,25 @@ describe('GET /candidates', () => {
     // Verificar que prisma.candidate.findMany fue llamado una vez
     expect(prisma.candidate.findMany).toHaveBeenCalledTimes(1);
   });
+
+  it('debería devolver status 500 cuando ocurre un error de base de datos', async () => {
+    // Configurar el mock de Prisma para rechazar con un error
+    (prisma.candidate.findMany as jest.Mock).mockRejectedValue(
+      new Error('Database connection failed')
+    );
+
+    // Realizar la llamada HTTP
+    const response = await request(app).get('/candidates');
+
+    // Verificar el status de la respuesta
+    expect(response.status).toBe(500);
+
+    // Verificar que el cuerpo de la respuesta contiene un mensaje de error
+    expect(response.body).toHaveProperty('message');
+    expect(typeof response.body.message).toBe('string');
+
+    // Verificar que prisma.candidate.findMany fue llamado una vez
+    expect(prisma.candidate.findMany).toHaveBeenCalledTimes(1);
+  });
 });
 

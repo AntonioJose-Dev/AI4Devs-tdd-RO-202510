@@ -9,11 +9,9 @@ router.get('/', async (req, res) => {
     const candidates = await Candidate.findAll();
     res.status(200).json(candidates);
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(400).send({ message: error.message });
-    } else {
-      res.status(500).send({ message: "An unexpected error occurred" });
-    }
+    res.status(500).json({
+      message: error instanceof Error ? error.message : 'An unexpected error occurred',
+    });
   }
 });
 
@@ -34,6 +32,9 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'ID inválido' });
+    }
     const candidate = await Candidate.findById(id);
     
     if (!candidate) {

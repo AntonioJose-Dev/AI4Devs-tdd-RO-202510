@@ -149,44 +149,23 @@ describe('POST /candidates', () => {
       expect(prisma.resume.create).toHaveBeenCalledTimes(1);
     });
 
-    it('debería crear un candidato con datos mínimos (sin educations, workExperiences ni cv)', async () => {
-      // TODO: Implementar test con payload mínimo
-      expect(true).toBe(true);
-    });
+    it.todo('debería crear un candidato con datos mínimos (sin educations, workExperiences ni cv)');
   });
 
   describe('Validación de datos', () => {
-    it('debería devolver error 400 si falta el campo firstName', async () => {
-      // TODO: Implementar test de validación
-      expect(true).toBe(true);
-    });
+    it.todo('debería devolver error 400 si falta el campo firstName');
 
-    it('debería devolver error 400 si falta el campo lastName', async () => {
-      // TODO: Implementar test de validación
-      expect(true).toBe(true);
-    });
+    it.todo('debería devolver error 400 si falta el campo lastName');
 
-    it('debería devolver error 400 si falta el campo email', async () => {
-      // TODO: Implementar test de validación
-      expect(true).toBe(true);
-    });
+    it.todo('debería devolver error 400 si falta el campo email');
 
-    it('debería devolver error 400 si el email tiene formato inválido', async () => {
-      // TODO: Implementar test de validación de formato de email
-      expect(true).toBe(true);
-    });
+    it.todo('debería devolver error 400 si el email tiene formato inválido');
   });
 
   describe('Manejo de errores de base de datos', () => {
-    it('debería devolver error 400 si el email ya existe (constraint único)', async () => {
-      // TODO: Mockear error P2002 de Prisma (unique constraint violation)
-      expect(true).toBe(true);
-    });
+    it.todo('debería devolver error 400 si el email ya existe (constraint único)');
 
-    it('debería manejar errores de conexión a la base de datos', async () => {
-      // TODO: Mockear PrismaClientInitializationError
-      expect(true).toBe(true);
-    });
+    it.todo('debería manejar errores de conexión a la base de datos');
   });
 });
 
